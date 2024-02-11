@@ -25,6 +25,17 @@ class HubstuffDataParser:
         return organizations
 
 
+    def add_activity(self, activities_map: dict, user_id: int, project_id: int, duration: timedelta):
+        # Chop microseconds
+        duration = duration - timedelta(microseconds=duration.microseconds)
+        if user_id in activities_map:
+            if project_id in activities_map[user_id]:
+                activities_map[user_id][project_id] += duration
+            else:
+                activities_map[user_id][project_id] = duration
+        else:
+            activities_map[user_id] = {project_id: duration}
+        
     def get_activities_by_day(self, target_day: date):
         '''
         Returns a tuple of an object and a few dicts
@@ -50,7 +61,8 @@ class HubstuffDataParser:
         start_time_iso = start_time.isoformat()
         end_time_iso = end_time.isoformat()
 
-        activities_map: dict = {}
+        activities_map: dict = {} # [user_id][product_id] -> duration
+        prev_activity_map: dict = {} # [user_id][product_id] -> [starts_at, finished_at], Used for calculating overlaps between activities
         users_map = {}
         projects_map = {}
 
@@ -65,6 +77,8 @@ class HubstuffDataParser:
             if activities_response is None or 'activities' not in activities_response or 'users' not in activities_response or 'projects' not in activities_response :
                 return None
             activities = activities_response['activities']
+            # Not sure activities are sorted, so sort them by ourselves by 'starts_at' field
+            activities.sort(key=lambda activity: activity['starts_at'])
             users = activities_response['users']
             projects = activities_response['projects']
             for activity in activities:
@@ -91,16 +105,21 @@ class HubstuffDataParser:
                 # Adjust starts_at, finished_at to the edge of the target day
                 starts_at_fixed = starts_at if starts_at >= start_time else start_time
                 finished_at_fixed = finished_at if finished_at <= end_time else end_time
-                duration = finished_at_fixed - starts_at_fixed
-                # Chop microseconds
-                duration = duration - timedelta(microseconds=duration.microseconds)
-                if user_id in activities_map:
-                    if project_id in activities_map[user_id]:
-                        activities_map[user_id][project_id] += duration
+                period = [starts_at_fixed, finished_at_fixed]
+                if user_id in prev_activity_map:
+                    if project_id in prev_activity_map[user_id]:
+                        prev_period = prev_activity_map[user_id][project_id]
+                        if prev_period[1] >= period[0]:
+                            # If the end time of the previous activity is after the start time of the current activity, i.e. if the previous and current activities overlaps
+                            prev_activity_map[user_id][project_id] = [prev_period[0], max(prev_period[1], period[1])]
+                        else:
+                            duration = prev_period[1] - prev_period[0]
+                            self.add_activity(activities_map, user_id=user_id, project_id=project_id, duration=duration)
+                            prev_activity_map[user_id][project_id] = period
                     else:
-                        activities_map[user_id][project_id] = duration
+                        prev_activity_map[user_id][project_id] = period
                 else:
-                    activities_map[user_id] = {project_id: duration}
+                    prev_activity_map[user_id] = {project_id: period}
             
             for user in users:
                 if user['id'] not in users_map:
@@ -113,5 +132,15 @@ class HubstuffDataParser:
             if 'pagination' not in activities_response or 'next_page_start_id' not in activities_response['pagination']:
                 break
             page_start_id = activities_response['pagination']['next_page_start_id']
+
+        # Add the final prev_activity
+        for user_id, prev_activities_per_user in prev_activity_map.items():
+            if prev_activities_per_user is None:
+                continue
+            for project_id, prev_activity in prev_activities_per_user.items():
+                if prev_activity is None:
+                    continue
+                duration = prev_activity[1] - prev_activity[0]
+                self.add_activity(activities_map, user_id=user_id, project_id=project_id, duration=duration)
 
         return organization, activities_map, users_map, projects_map
