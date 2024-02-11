@@ -10,5 +10,12 @@
 - Simple deployment
 
 ## Deployment
-
 For deployment, please refer to [INSTALL.md](INSTALL.md) instruction.
+
+## Attachment
+In the `docs` directory, it has a Postman collection file for Reef Hubstaff API.
+
+## Notice
+- In the project description, I am supposed to retrieve the activity statistics information of a given organization.
+But the API endpoint for retrieving organziations returns multiple organizations.
+So I assumed that we want to retrieve the activity aggregation information of the 1st organization from the retrived list of organizations.

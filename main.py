@@ -17,6 +17,9 @@ def main():
         today = date.today()
         yesterday = today - timedelta(days=1)
         activities_by_day = data_parser.get_activities_by_day(yesterday)
+        if activities_by_day is None:
+            logger.error(f"Failed to get activities by day on {yesterday.strftime('%Y-%m-%d')}")
+            return False
         html_generator = HtmlGenerator()
         table_html = html_generator.dump_work_time_table(yesterday, activities_by_day)
         table_html_str = str(table_html.decode('utf-8'))

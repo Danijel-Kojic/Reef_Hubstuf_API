@@ -42,7 +42,11 @@ class HubstuffDataParser:
             return None
         # Get only the 1st organization by default. Nothing was specified in the requirements in terms of which organization we should report
         organization = organizations['organizations'][0]
+        if 'id' not in organization or 'name' not in organization:
+            logger.error('Failed to get organization ID or name')
+            return None
         organization_id = organization['id']
+        logger.debug(f"Organization id={organization_id}, name={organization['name']}")
         start_time_iso = start_time.isoformat()
         end_time_iso = end_time.isoformat()
 
@@ -64,10 +68,26 @@ class HubstuffDataParser:
             users = activities_response['users']
             projects = activities_response['projects']
             for activity in activities:
+                if ('user_id' not in activity) or (activity['user_id'] is None):
+                    logger.warning(f"Failed to get user_id in activity {activity['id']}")
+                    continue
                 user_id = activity['user_id']
+
+                if ('project_id' not in activity) or (activity['project_id'] is None):
+                    logger.warning(f"Failed to get project_id in activity {activity['id']}")
+                    continue
                 project_id = activity['project_id']
+
+                if ('starts_at' not in activity) or (activity['starts_at'] is None):
+                    logger.warning(f"Failed to get starts_at in activity {activity['id']}")
+                    continue
                 starts_at = datetime.fromisoformat(activity['starts_at'])
+
+                if ('updated_at' not in activity) or (activity['updated_at'] is None):
+                    logger.warning(f"Failed to get updated_at in activity {activity['id']}")
+                    continue
                 finished_at = datetime.fromisoformat(activity['updated_at'])
+
                 # Adjust starts_at, finished_at to the edge of the target day
                 starts_at_fixed = starts_at if starts_at >= start_time else start_time
                 finished_at_fixed = finished_at if finished_at <= end_time else end_time
