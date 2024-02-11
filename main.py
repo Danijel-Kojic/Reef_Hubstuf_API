@@ -3,6 +3,7 @@ from datetime import date, timedelta
 from src.api_client import HubstuffApiClient
 from src.data_parser import HubstuffDataParser
 from src.html_generator import HtmlGenerator
+from src.email_sender import EmailSender
 from src.logger import get_root_logger
 
 
@@ -23,6 +24,13 @@ def main():
         print(table_html_str)
         # with open('table.html', 'wb') as f:
         #     f.write(table_html)
+        try:
+            email_sender = EmailSender()
+            subject = f"Work stats on {yesterday.strftime('%Y-%m-%d')}"
+            email_sender.send_email(subject=subject, content=table_html_str)
+        except Exception as e:
+            logger.error(f'Failed to send email {e}')
+
     except Exception as e:
         logger.error(e)
         return False

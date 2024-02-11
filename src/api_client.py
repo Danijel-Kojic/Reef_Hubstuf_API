@@ -26,11 +26,11 @@ class HubstuffApiClient:
             self.email = os.getenv('HUBSTUFF_API_EMAIL')
             self.password = os.getenv('HUBSTUFF_API_PASSWORD')
             self.app_token = os.getenv('HUBSTUFF_API_APP_TOKEN')
-            if None == self.email:
+            if self.email is None:
                 raise HubstuffConfigError("Failed to load email from .env file")
-            if None == self.password:
+            if self.password is None:
                 raise HubstuffConfigError("Failed to load password from .env file")
-            if None == self.app_token:
+            if self.app_token is None:
                 raise HubstuffConfigError("Failed to load app token from .env file")
         except Exception as e:
             raise HubstuffConfigError(f"Failed to read config {e}")
