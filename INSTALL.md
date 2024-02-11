@@ -3,6 +3,7 @@
 ## Installation
 
 First, extract this project in somewhere like `~/`.
+Create an ".env" file based on ".env.example" in the project directory and fill the proper values for each fields such as Hubstuff API and SMTP credentials
 
 Next, run the setup script.
 
