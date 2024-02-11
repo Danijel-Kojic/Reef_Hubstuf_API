@@ -1,4 +1,4 @@
-# Reef daily work report
+# Reef daily activity statistics report
 
 ## Installation
 
