@@ -1,0 +1,525 @@
+{
+	"info": {
+		"_postman_id": "696f8ac0-b4ac-43e5-a143-336f8f470a5d",
+		"name": "Reef Hubstuff APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "authentication",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "AppToken",
+								"value": "{{app_token}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{api_base_url}}/users/authentication",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"users",
+								"authentication"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "self",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "AppToken",
+								"value": "{{app_token}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{api_base_url}}/users/self?auth_token={{auth_token}}",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"users",
+								"self"
+							],
+							"query": [
+								{
+									"key": "auth_token",
+									"value": "{{auth_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{user_id}",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "AppToken",
+								"value": "{{app_token}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{api_base_url}}/users/{{self_user_id}}?auth_token={{auth_token}}",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"users",
+								"{{self_user_id}}"
+							],
+							"query": [
+								{
+									"key": "auth_token",
+									"value": "{{auth_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "organizations",
+			"item": [
+				{
+					"name": "get_company",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "AppToken",
+								"value": "{{app_token}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{api_base_url}}/company?auth_token={{auth_token}}",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"company"
+							],
+							"query": [
+								{
+									"key": "auth_token",
+									"value": "{{auth_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "members",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "AppToken",
+								"value": "{{app_token}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{api_base_url}}/company/{{organization_id}}/members?auth_token={{auth_token}}",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"company",
+								"{{organization_id}}",
+								"members"
+							],
+							"query": [
+								{
+									"key": "auth_token",
+									"value": "{{auth_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "projects",
+			"item": [
+				{
+					"name": "get_projects",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "AppToken",
+								"value": "{{app_token}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{api_base_url}}/company/{{organization_id}}/task?auth_token={{auth_token}}",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"company",
+								"{{organization_id}}",
+								"task"
+							],
+							"query": [
+								{
+									"key": "auth_token",
+									"value": "{{auth_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_projects_members",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "AppToken",
+								"value": "{{app_token}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{api_base_url}}/task/{{project_id}}/members?auth_token={{auth_token}}",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"task",
+								"{{project_id}}",
+								"members"
+							],
+							"query": [
+								{
+									"key": "auth_token",
+									"value": "{{auth_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_projects_actions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "AppToken",
+								"value": "{{app_token}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{api_base_url}}/task/{{project_id}}/actions?auth_token={{auth_token}}",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"task",
+								"{{project_id}}",
+								"actions"
+							],
+							"query": [
+								{
+									"key": "auth_token",
+									"value": "{{auth_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "activities",
+			"item": [
+				{
+					"name": "get_organization_activities",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "AppToken",
+								"value": "{{app_token}}",
+								"type": "default"
+							},
+							{
+								"key": "TimeSlotStart",
+								"value": "2024-02-11T01:00:41",
+								"type": "default"
+							},
+							{
+								"key": "Include",
+								"value": "users,projects",
+								"type": "default"
+							},
+							{
+								"key": "PageLimit",
+								"value": "10",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{api_base_url}}/company/{{organization_id}}/work?auth_token={{auth_token}}&time_slot[stop]=2024-02-13T01:09:00+01:00&page_start_id=10",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"company",
+								"{{organization_id}}",
+								"work"
+							],
+							"query": [
+								{
+									"key": "auth_token",
+									"value": "{{auth_token}}"
+								},
+								{
+									"key": "time_slot[stop]",
+									"value": "2024-02-13T01:09:00+01:00"
+								},
+								{
+									"key": "page_start_id",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_organization_activities_by_day",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "AppToken",
+								"value": "{{app_token}}",
+								"type": "default"
+							},
+							{
+								"key": "DateStart",
+								"value": "2024-02-10T19:20:30.45+01:00",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{api_base_url}}/company/{{organization_id}}/work/by_day?auth_token={{auth_token}}&date[stop]=2024-02-12T19:20:30.45+01:00",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"company",
+								"{{organization_id}}",
+								"work",
+								"by_day"
+							],
+							"query": [
+								{
+									"key": "auth_token",
+									"value": "{{auth_token}}"
+								},
+								{
+									"key": "date[stop]",
+									"value": "2024-02-12T19:20:30.45+01:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_project_activities",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "AppToken",
+								"value": "{{app_token}}",
+								"type": "default"
+							},
+							{
+								"key": "TimeSlotStart",
+								"value": "2024-02-10T19:20:30.45+01:00",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{api_base_url}}/task/{{project_id}}/work?auth_token={{auth_token}}&time_slot[stop]=2024-02-12T19:20:30.45+01:00",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"task",
+								"{{project_id}}",
+								"work"
+							],
+							"query": [
+								{
+									"key": "auth_token",
+									"value": "{{auth_token}}"
+								},
+								{
+									"key": "time_slot[stop]",
+									"value": "2024-02-12T19:20:30.45+01:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_project_activities_by_day",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "AppToken",
+								"value": "{{app_token}}",
+								"type": "default"
+							},
+							{
+								"key": "DateStart",
+								"value": "2024-02-10T19:20:30.45+01:00",
+								"type": "default"
+							},
+							{
+								"key": "Include",
+								"value": "users",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{api_base_url}}/task/{{project_id}}/work/by_day?auth_token={{auth_token}}&date[stop]=2024-02-12T19:20:30.45+01:00",
+							"host": [
+								"{{api_base_url}}"
+							],
+							"path": [
+								"task",
+								"{{project_id}}",
+								"work",
+								"by_day"
+							],
+							"query": [
+								{
+									"key": "auth_token",
+									"value": "{{auth_token}}"
+								},
+								{
+									"key": "date[stop]",
+									"value": "2024-02-12T19:20:30.45+01:00"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "api_base_url",
+			"value": "https://mutator.reef.pl/v342",
+			"type": "default"
+		},
+		{
+			"key": "app_token",
+			"value": "488QZOTTNKS64N7R",
+			"type": "default"
+		},
+		{
+			"key": "email",
+			"value": "danijel.kojic.91124@gmail.com",
+			"type": "default"
+		},
+		{
+			"key": "password",
+			"value": "ABQXOJWV",
+			"type": "default"
+		},
+		{
+			"key": "auth_token",
+			"value": "H5IBSJ4NULH9Z6O7",
+			"type": "default"
+		},
+		{
+			"key": "self_user_id",
+			"value": "2546133",
+			"type": "default"
+		},
+		{
+			"key": "organization_id",
+			"value": "561206",
+			"type": "default"
+		},
+		{
+			"key": "project_id",
+			"value": "2894345",
+			"type": "default"
+		}
+	]
+}
