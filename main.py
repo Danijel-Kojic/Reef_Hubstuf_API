@@ -21,8 +21,8 @@ def main():
         table_html = html_generator.dump_work_time_table(yesterday, activities_by_day)
         table_html_str = str(table_html.decode('utf-8'))
         print(table_html_str)
-        with open('table.html', 'wb') as f:
-            f.write(table_html)
+        # with open('table.html', 'wb') as f:
+        #     f.write(table_html)
         try:
             email_sender = EmailSender()
             subject = f"Work stats on {yesterday.strftime('%Y-%m-%d')}"
