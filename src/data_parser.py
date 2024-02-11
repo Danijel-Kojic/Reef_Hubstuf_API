@@ -27,7 +27,8 @@ class HubstuffDataParser:
 
     def get_activities_by_day(self, target_day: date):
         '''
-        Returns a tuple of three dicts
+        Returns a tuple of an object and a few dicts
+        organization
         activities: [user_id][project_id] -> time_worked
         users: user_id -> user
         projects: project_id -> project
@@ -39,7 +40,9 @@ class HubstuffDataParser:
         if organizations is None or 'organizations' not in organizations:
             logger.error('Failed to get organizations')
             return None
-        organization_id = organizations['organizations'][0]['id']
+        # Get only the 1st organization by default. Nothing was specified in the requirements in terms of which organization we should report
+        organization = organizations['organizations'][0]
+        organization_id = organization['id']
         start_time_iso = start_time.isoformat()
         end_time_iso = end_time.isoformat()
 
@@ -91,4 +94,4 @@ class HubstuffDataParser:
                 break
             page_start_id = activities_response['pagination']['next_page_start_id']
 
-        return activities_map, users_map, projects_map
+        return organization, activities_map, users_map, projects_map
