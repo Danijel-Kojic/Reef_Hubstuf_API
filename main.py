@@ -15,11 +15,10 @@ def main():
         api_client = HubstuffApiClient()
         data_parser = HubstuffDataParser(api_client=api_client)
         today = date.today()
-        # yesterday = today - timedelta(days=1)
-        yesterday = today
+        yesterday = today - timedelta(days=1)
         activities_by_day = data_parser.get_activities_by_day(yesterday)
         html_generator = HtmlGenerator()
-        table_html = html_generator.dump_work_time_table(activities_by_day)
+        table_html = html_generator.dump_work_time_table(yesterday, activities_by_day)
         table_html_str = str(table_html.decode('utf-8'))
         print(table_html_str)
         # with open('table.html', 'wb') as f:

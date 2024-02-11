@@ -14,7 +14,7 @@ def get_root_logger(logger_name, filename=None):
         return root_loggers[logger_name]
     ''' get the logger object '''
     logger = logging.getLogger(logger_name)
-    debug = os.getenv('ENV', 'development') == 'development'
+    # debug = os.getenv('ENV', 'development') == 'development'
     # logger.setLevel(logging.DEBUG if debug else logging.INFO)
     logger.setLevel(logging.DEBUG)
 
@@ -24,10 +24,10 @@ def get_root_logger(logger_name, filename=None):
     if None == filename:
         filename = LOG_FILE_PATH
 
-    if debug:
-        ch = logging.StreamHandler()
-        ch.setFormatter(formatter)
-        logger.addHandler(ch)
+    # if debug:
+    #     ch = logging.StreamHandler()
+    #     ch.setFormatter(formatter)
+    #     logger.addHandler(ch)
 
     fh = logging.FileHandler(filename)
     fh.setFormatter(formatter)
